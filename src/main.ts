@@ -1,0 +1,19 @@
+import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app/app.module';
+import { swaggerConfig } from './configs/swagger/swagger.config';
+const config = require('dotenv').config();
+const logger = new Logger('main');
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  const port = process.env.PORT || 3000;
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api', app, document);
+  await app.listen(port);
+  logger.log(
+    `Server is running on: ===> ${process.env.HOST}:${process.env.PORT}/api`,
+  );
+}
+bootstrap();
