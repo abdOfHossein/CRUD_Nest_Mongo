@@ -1,26 +1,60 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { ITour } from '../database/tour.interface';
 import { CreateTourDto } from '../dto/create-tour.dto';
 import { UpdateTourDto } from '../dto/update-tour.dto';
 
 @Injectable()
 export class TourService {
-  create(createTourDto: CreateTourDto) {
-    return 'This action adds a new tour';
+  constructor(@InjectModel('Tour') private readonly tourModel: Model<ITour>) {}
+
+  async create(createTourDto: CreateTourDto): Promise<ITour> {
+    try {
+      const tour = await this.tourModel.create({});
+      (tour.price = createTourDto.price),
+        (tour.name_tour = createTourDto.name_tour),
+        (tour.type_hotel = createTourDto.type_hotel),
+        (tour.album_img = createTourDto.album_img),
+        await tour.save();
+      return tour;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 
-  findAll() {
-    return `This action returns all tour`;
+  async findAll(): Promise<ITour[]> {
+    try {
+      return await this.tourModel.find({});
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tour`;
+  async findOne(id: string): Promise<ITour> {
+    try {
+      return await this.tourModel.findById(id);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 
-  update(id: number, updateTourDto: UpdateTourDto) {
-    return `This action updates a #${id} tour`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} tour`;
+  async update(id: string, updateTourDto: UpdateTourDto): Promise<ITour> {
+    try {
+      const result = await this.tourModel.findByIdAndUpdate(id, {
+        price: updateTourDto.price,
+        name_tour: updateTourDto.name_tour,
+        type_hotel: updateTourDto.type_hotel,
+        album_img: updateTourDto.album_img,
+      });
+      console.log(result);
+      return result;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 }

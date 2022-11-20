@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TypeHotelEnum } from '../enums/tour.enum';
 
-export class UpdateTourDto {
+export class ResponseTourDto {
   @ApiProperty()
   name_tour: string;
 

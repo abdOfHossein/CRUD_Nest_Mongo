@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateTourDto } from '../dto/create-tour.dto';
@@ -29,16 +30,11 @@ export class TourController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tourService.findOne(+id);
+    return this.tourService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateTourDto: UpdateTourDto) {
-    return this.tourService.update(+id, updateTourDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tourService.remove(+id);
+    return this.tourService.update(id, updateTourDto);
   }
 }
