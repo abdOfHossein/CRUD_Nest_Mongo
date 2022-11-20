@@ -12,9 +12,6 @@ export class CreateTourDto {
   @ApiProperty()
   price: number;
 
-  @ApiHideProperty()
-  album_img: string[];
-
   @ApiProperty({ default: TypeHotelEnum.ONE_STAR })
   type_hotel: TypeHotelEnum;
 

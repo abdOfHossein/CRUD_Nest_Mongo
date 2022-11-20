@@ -11,14 +11,15 @@ export class TourService {
 
   async create(createTourDto: CreateTourDto): Promise<ITour> {
     try {
+      console.log(createTourDto.img_file.filename);
+
       const tour = await this.tourModel.create({
         price: createTourDto.price,
         name_tour: createTourDto.name_tour,
         type_hotel: createTourDto.type_hotel,
-        album_img: createTourDto.album_img,
+        album_img: createTourDto.img_file.filename,
         city_id: createTourDto.city_id,
       });
-
       await tour.save();
       return tour;
     } catch (e) {
@@ -29,7 +30,7 @@ export class TourService {
 
   async findAll(): Promise<ITour[]> {
     try {
-      return await this.tourModel.find({}).populate('city_id')
+      return await this.tourModel.find({}).populate('city_id');
     } catch (e) {
       console.log(e);
       throw e;
