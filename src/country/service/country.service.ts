@@ -28,7 +28,7 @@ export class CountryService {
 
   async findAll() {
     try {
-      return await this.countryModel.find({});
+      return await this.countryModel.find({})
     } catch (e) {
       console.log(e);
       throw e;

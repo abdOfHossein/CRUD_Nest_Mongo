@@ -6,7 +6,7 @@ import {
   Post,
   Put,
   UploadedFile,
-  UseInterceptors
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
@@ -52,12 +52,7 @@ export class TourController {
         },
       },
     },
-
   })
-
-  // album_img: 'string[]',
-  // type_hotel: 'TypeHotelEnum',
-  // img_file: 'any',
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -69,13 +64,15 @@ export class TourController {
   // @ApiProperty({
   //   enum: ['ali', 'rezaz'],
   // })
-  @Post()
+  @Post(':city_id')
   async create(
+    @Param('city_id') city_id: string,
     @UploadedFile() file: Express.Multer.File,
     @Body() createTourDto: CreateTourDto,
   ) {
     try {
       createTourDto.img_file = file;
+      createTourDto.city_id = city_id;
       return this.tourService.create(createTourDto);
     } catch (e) {
       console.log(e);
@@ -93,7 +90,12 @@ export class TourController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateTourDto: UpdateTourDto) {
+  update(
+    @Param('city_id') city_id: string,
+    @Param('id') id: string,
+    @Body() updateTourDto: UpdateTourDto,
+  ) {
+    updateTourDto.city_id = city_id;
     return this.tourService.update(id, updateTourDto);
   }
 }

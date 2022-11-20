@@ -1,6 +1,10 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 export class CreateCityDto {
+
+  @ApiHideProperty()
+  country_id: string;
+
   @ApiHideProperty()
   _id: string;
 

@@ -1,6 +1,9 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 export class UpdateCityDto {
+  @ApiHideProperty()
+  country_id: string;
+
   @ApiProperty()
   name_city_en: string;
 

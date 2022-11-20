@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Country } from 'src/country/database/country.schema';
+import { Tour } from 'src/tour/database/tour.schema';
 
-@Schema({_id:false})
+@Schema({ _id: false })
 export class City {
-
   @Prop({
     type: String,
   })
@@ -17,6 +18,22 @@ export class City {
     type: String,
   })
   name_city_fa: string;
+
+  @Prop({
+    type: String,
+    ref: 'Country',
+  })
+  country_id: Country;
+
+  @Prop({
+    type: [
+      {
+        type: String,
+        ref: Tour.name,
+      },
+    ],
+  })
+  tour: [Tour];
 }
 
 export const CitySchema = SchemaFactory.createForClass(City);

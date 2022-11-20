@@ -9,8 +9,12 @@ import { CityService } from '../service/city.service';
 export class CityController {
   constructor(private readonly cityService: CityService) {}
 
-  @Post()
-  create(@Body() createCityDto: CreateCityDto) {
+  @Post(':country_id')
+  create(
+    @Param('country_id') country_id: string,
+    @Body() createCityDto: CreateCityDto,
+  ) {
+    createCityDto.country_id = country_id;
     return this.cityService.create(createCityDto);
   }
 
@@ -25,7 +29,12 @@ export class CityController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateCityDto: UpdateCityDto) {
+  update(
+    @Param('country_id') country_id: string,
+    @Param('id') id: string,
+    @Body() updateCityDto: UpdateCityDto,
+  ) {
+    updateCityDto.country_id = country_id;
     return this.cityService.update(id, updateCityDto);
   }
 }

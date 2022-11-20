@@ -11,11 +11,13 @@ export class TourService {
 
   async create(createTourDto: CreateTourDto): Promise<ITour> {
     try {
-      const tour = await this.tourModel.create({});
-      (tour.price = createTourDto.price),
-        (tour.name_tour = createTourDto.name_tour),
-        (tour.type_hotel = createTourDto.type_hotel),
-        (tour.album_img = createTourDto.img_file.filename);
+      const tour = await this.tourModel.create({
+        price: createTourDto.price,
+        name_tour: createTourDto.name_tour,
+        type_hotel: createTourDto.type_hotel,
+        album_img: createTourDto.album_img,
+        city_id: createTourDto.city_id,
+      });
 
       await tour.save();
       return tour;
@@ -27,7 +29,7 @@ export class TourService {
 
   async findAll(): Promise<ITour[]> {
     try {
-      return await this.tourModel.find({});
+      return await this.tourModel.find({}).populate('city_id')
     } catch (e) {
       console.log(e);
       throw e;
@@ -50,6 +52,7 @@ export class TourService {
         name_tour: updateTourDto.name_tour,
         type_hotel: updateTourDto.type_hotel,
         album_img: updateTourDto.album_img,
+        city_id: updateTourDto.city_id,
       });
       console.log(result);
       return result;

@@ -1,7 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { TypeHotelEnum } from '../enums/tour.enum';
 
 export class UpdateTourDto {
+  @ApiHideProperty()
+  city_id: string;
+
   @ApiProperty()
   name_tour: string;
 
