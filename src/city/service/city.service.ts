@@ -11,9 +11,10 @@ export class CityService {
 
   async create(createCityDto: CreateCityDto): Promise<ICity> {
     try {
-      const city = await this.cityModel.create({});
+      const city:any = await this.cityModel.create({});
       (city.name_city_en = createCityDto.name_city_en),
         (city.name_city_fa = createCityDto.name_city_fa),
+        (city._id = 1),
         await city.save();
       return city;
     } catch (e) {

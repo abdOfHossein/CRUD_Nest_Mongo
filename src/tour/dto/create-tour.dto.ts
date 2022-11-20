@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { TypeHotelEnum } from '../enums/tour.enum';
 
 export class CreateTourDto {
@@ -8,9 +8,13 @@ export class CreateTourDto {
   @ApiProperty()
   price: number;
 
-  @ApiProperty()
+  @ApiHideProperty()
   album_img: string[];
 
   @ApiProperty({ default: TypeHotelEnum.ONE_STAR })
   type_hotel: TypeHotelEnum;
+
+  @ApiHideProperty()
+  img_file: any;
+  
 }

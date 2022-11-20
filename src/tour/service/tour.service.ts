@@ -15,8 +15,9 @@ export class TourService {
       (tour.price = createTourDto.price),
         (tour.name_tour = createTourDto.name_tour),
         (tour.type_hotel = createTourDto.type_hotel),
-        (tour.album_img = createTourDto.album_img),
-        await tour.save();
+        (tour.album_img = createTourDto.img_file.filename);
+
+      await tour.save();
       return tour;
     } catch (e) {
       console.log(e);
