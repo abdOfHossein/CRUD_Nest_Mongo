@@ -12,9 +12,12 @@ export class CountryService {
   ) {}
   async create(createCountryDto: CreateCountryDto) {
     try {
-      const country = await this.countryModel.create({});
-      country.name_country_en = createCountryDto.name_country_en;
-      country.name_country_fa = createCountryDto.name_country_fa;
+      const country = await this.countryModel.create({
+        name_country_en: createCountryDto.name_country_en,
+        name_country_fa: createCountryDto.name_country_fa,
+        _id: createCountryDto.name_country_en,
+      });
+
       await country.save();
       return country;
     } catch (e) {
