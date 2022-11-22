@@ -15,12 +15,13 @@ export class CityService {
 
   async create(createCityDto: CreateCityDto): Promise<ICity> {
     try {
-      console.log(createCityDto);
-
+      const country = await this.countryModel.findById(
+        createCityDto.country_id,
+      );
       const city: any = await this.cityModel.create({
         _id: createCityDto.name_city_en,
         name_city_en: createCityDto.name_city_en,
-        country_id: createCityDto.country_id,
+        country,
         name_city_fa: createCityDto.name_city_fa,
       });
       await city.save();
@@ -33,7 +34,7 @@ export class CityService {
 
   async findAll(): Promise<ICity[]> {
     try {
-      const result = await this.cityModel.find({}).populate('country_id');
+      const result = await this.cityModel.find({})
       console.log(result);
       return result;
     } catch (e) {
@@ -44,7 +45,7 @@ export class CityService {
 
   async findOne(id: string): Promise<ICity> {
     try {
-      return await this.cityModel.findById(id);
+      return await this.cityModel.findById(id).populate('country');
     } catch (e) {
       console.log(e);
       throw e;
@@ -53,8 +54,11 @@ export class CityService {
 
   async update(id: string, updateCityDto: UpdateCityDto): Promise<ICity> {
     try {
+      const country = await this.countryModel.findById(
+        updateCityDto.country_id,
+      );
       const result = await this.cityModel.findByIdAndUpdate(id, {
-        country_id: updateCityDto.country_id,
+        country,
         name_city_en: updateCityDto.name_city_en,
         name_city_fa: updateCityDto.name_city_fa,
       });

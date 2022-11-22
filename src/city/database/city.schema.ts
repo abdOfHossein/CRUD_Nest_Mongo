@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Type } from 'class-transformer';
 import { Country } from 'src/country/database/country.schema';
 import { Tour } from 'src/tour/database/tour.schema';
 
@@ -23,7 +24,8 @@ export class City {
     type: String,
     ref: 'Country',
   })
-  country_id: Country;
+  @Type(() => Country)
+  country: Country;
 
   @Prop({
     type: [
