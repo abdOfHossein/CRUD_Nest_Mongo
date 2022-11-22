@@ -5,10 +5,10 @@ import {
   Param,
   Post,
   Put,
-  UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { UpdateTourDto } from '../dto/update-tour.dto';
 import { TourService } from '../service/tour.service';
@@ -36,7 +36,15 @@ export class TourController {
     schema: {
       type: 'object',
       properties: {
-        file: {
+        file1: {
+          type: 'string',
+          format: 'binary',
+        },
+        file2: {
+          type: 'string',
+          format: 'binary',
+        },
+        file3: {
           type: 'string',
           format: 'binary',
         },
@@ -54,24 +62,33 @@ export class TourController {
     },
   })
   @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: Helper.destinationPath,
-        filename: Helper.customFileName,
-      }),
-    }),
+    FileFieldsInterceptor(
+      [
+        { name: 'file1', maxCount: 1 },
+        { name: 'file2', maxCount: 1 },
+        { name: 'file3', maxCount: 1 },
+      ],
+      {
+        storage: diskStorage({
+          destination: Helper.destinationPath,
+          filename: Helper.customFileName,
+        }),
+      },
+    ),
   )
-  // @ApiProperty({
-  //   enum: ['ali', 'rezaz'],
-  // })
   @Post(':city_id')
   async create(
     @Param('city_id') city_id: string,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFiles()
+    files: {
+      file1: Express.Multer.File;
+      file2: Express.Multer.File;
+      file3: Express.Multer.File;
+    },
     @Body() createTourDto: CreateTourDto,
   ) {
     try {
-      createTourDto.img_file = file;
+      createTourDto.img_file = { ...files };
       createTourDto.city_id = city_id;
       return this.tourService.create(createTourDto);
     } catch (e) {

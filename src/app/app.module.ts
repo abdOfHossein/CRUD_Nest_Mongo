@@ -17,7 +17,7 @@ import { AppService } from './service/app.service';
     MulterModule.register({
       dest: './upload',
     }),
-    MongooseModule.forRoot('mongodb://127.0.0.1/test'),
+    MongooseModule.forRoot(`mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`),
     TourModule,
     CityModule,
     CountryModule,

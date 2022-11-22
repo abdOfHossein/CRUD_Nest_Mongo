@@ -11,15 +11,20 @@ export class TourService {
 
   async create(createTourDto: CreateTourDto): Promise<ITour> {
     try {
-      console.log(createTourDto.img_file.filename);
-
+      let album_img: any = {};
+      for (const file in createTourDto.img_file) {
+        album_img[createTourDto.img_file[file][0]['filename']] =
+          createTourDto.img_file[file][0]['path'];
+      }
       const tour = await this.tourModel.create({
         price: createTourDto.price,
         name_tour: createTourDto.name_tour,
         type_hotel: createTourDto.type_hotel,
-        album_img: createTourDto.img_file.filename,
+        album_img,
         city_id: createTourDto.city_id,
       });
+      console.log(tour);
+      
       await tour.save();
       return tour;
     } catch (e) {
