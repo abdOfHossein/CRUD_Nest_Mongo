@@ -79,35 +79,6 @@ export class CityService {
         name_city_en: updateCityDto.name_city_en,
         name_city_fa: updateCityDto.name_city_fa,
       });
-      const cities = await this.countryModel.find({
-        _id: updateCityDto.country_id,
-        cities: {
-          $elemMatch: {
-            'city._id': id,
-          },
-        },
-      });
-      console.log(cities);
-      console.log(id);
-      console.log(updateCityDto.country_id);
-
-      const result = await this.countryModel.updateOne(
-        {
-          _id: updateCityDto.country_id,
-          cities: {
-            $elemMatch: {
-              'city._id': id,
-            },
-          },
-        },
-        {
-          $set: {
-            'cities.$city.name_city_en': updateCityDto.name_city_en,
-            'cities.$city.name_city_fa': updateCityDto.name_city_fa,
-          },
-        },
-      );
-      console.log(result);
 
       return newCity;
     } catch (e) {

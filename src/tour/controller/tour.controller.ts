@@ -5,6 +5,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -76,9 +77,9 @@ export class TourController {
       },
     ),
   )
-  @Post(':city_id')
+  @Post()
   async create(
-    @Param('city_id') city_id: string,
+    @Query('city_id') city_id: string,
     @UploadedFiles()
     files: {
       file1: Express.Multer.File;
@@ -96,30 +97,30 @@ export class TourController {
     }
   }
 
-  @Get(':filter_value')
-  findAll(@Param('filter_value') filter_value: string) {
+  @Get('/filter')
+  findAll(@Query('filter_value') filter_value: string) {
     console.log(filter_value);
 
     return this.tourService.findAll(filter_value);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get('/readOne')
+  findOne(@Query('id') id: string) {
     return this.tourService.findOne(id);
   }
 
-  @Put('/:id/:city_id')
+  @Put()
   update(
-    @Param('city_id') city_id: string,
-    @Param('id') id: string,
+    // @Param('city_id') city_id: string,
+    @Query('id') id: string,
     @Body() updateTourDto: UpdateTourDto,
   ) {
-    updateTourDto.city_id = city_id;
+    // updateTourDto.city_id = city_id;
     return this.tourService.update(id, updateTourDto);
   }
 
-  @Get(':page/:limit')
-  pagination(@Param('page') page: string, @Param('limit') limit: string) {
+  @Get('page')
+  pagination(@Query('page') page: string, @Param('limit') limit: string) {
     const paginationDto: any = {};
     paginationDto.page = +page;
     paginationDto.limit = +limit;

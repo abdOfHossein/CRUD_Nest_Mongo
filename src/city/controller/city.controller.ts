@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Query, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCityDto } from '../dto/create-city.dto';
 import { PaginationCityDto } from '../../common/dto/pagination.dto';
@@ -11,37 +11,37 @@ export class CityController {
   constructor(private readonly cityService: CityService) {}
   private paginationCityDto: PaginationCityDto;
 
-  @Post(':country_id')
+  @Post()
   create(
-    @Param('country_id') country_id: string,
+    @Query('country_id') country_id: string,
     @Body() createCityDto: CreateCityDto,
   ) {
     createCityDto.country_id = country_id;
     return this.cityService.create(createCityDto);
   }
 
-  @Get(':filter_value')
-  findAll(@Param('filter_value') filter_value: string) {
+  @Get('/filter')
+  findAll(@Query('filter_value') filter_value: string) {
     return this.cityService.findAll(filter_value);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get('/readOne')
+  findOne(@Query('id') id: string) {
     return this.cityService.findOne(id);
   }
 
-  @Put('/:id/:country_id')
+  @Put()
   update(
-    @Param('country_id') country_id: string,
-    @Param('id') id: string,
+    // @Query('country_id') country_id: string,
+    @Query('id') id: string,
     @Body() updateCityDto: UpdateCityDto,
   ) {
-    updateCityDto.country_id = country_id;
+    // updateCityDto.country_id = country_id;
     return this.cityService.update(id, updateCityDto);
   }
 
-  @Get(':page/:limit')
-  pagination(@Param('page') page: string, @Param('limit') limit: string) {
+  @Get('/page')
+  pagination(@Query('page') page: string, @Query('limit') limit: string) {
     const paginationDto: any = {};
     paginationDto.page = +page;
     paginationDto.limit = +limit;

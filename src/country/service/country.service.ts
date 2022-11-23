@@ -53,9 +53,13 @@ export class CountryService {
     }
   }
 
-  async findOne(id: string) {
+  async getOne(id: string) {
     try {
-      return await this.countryModel.findById(id);
+      console.log(id);
+      
+      const country = await this.countryModel.findById(id);
+      console.log(country);
+      return country;
     } catch (e) {
       console.log(e);
       throw e;
@@ -64,10 +68,18 @@ export class CountryService {
 
   async update(id: string, updateCountryDto: UpdateCountryDto) {
     try {
-      return await this.countryModel.findByIdAndUpdate(id, {
-        name_country_en: updateCountryDto.name_country_en,
-        name_country_fa: updateCountryDto.name_country_fa,
-      });
+      console.log(id);
+      console.log(updateCountryDto);
+
+      const result = await this.countryModel.findOneAndUpdate(
+        { _id: id },
+        {
+          name_country_en: updateCountryDto.name_country_en,
+          name_country_fa: updateCountryDto.name_country_fa,
+        },
+      );
+      console.log(result);
+      return result;
     } catch (e) {
       console.log(e);
       throw e;

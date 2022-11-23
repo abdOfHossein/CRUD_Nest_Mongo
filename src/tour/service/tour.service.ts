@@ -67,24 +67,15 @@ export class TourService {
 
   async update(id: string, updateTourDto: UpdateTourDto): Promise<ITour> {
     try {
-      const oldTour = await this.tourModel.findById(id);
       const newTour = await this.tourModel.findByIdAndUpdate(id, {
-        price: updateTourDto.price,
-        name_tour: updateTourDto.name_tour,
-        type_hotel: updateTourDto.type_hotel,
-        album_img: updateTourDto.album_img,
-        city_id: updateTourDto.city_id,
-      });
-      await this.cityModel.findByIdAndUpdate(updateTourDto.city_id, {
         $set: {
-          $con: {
-            tour: oldTour,
-          },
-          tour: newTour,
+          price: updateTourDto.price,
+          name_tour: updateTourDto.name_tour,
+          type_hotel: updateTourDto.type_hotel,
+          album_img: updateTourDto.album_img,
+          city_id: updateTourDto.city_id,
         },
       });
-
-      console.log(newTour);
       return newTour;
     } catch (e) {
       console.log(e);
