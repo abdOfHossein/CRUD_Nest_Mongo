@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ICity } from 'src/city/database/city.interface';
+import { PaginationCityDto } from 'src/common/dto/pagination.dto';
 import { ITour } from '../database/tour.interface';
 import { CreateTourDto } from '../dto/create-tour.dto';
 import { UpdateTourDto } from '../dto/update-tour.dto';
@@ -85,6 +86,21 @@ export class TourService {
 
       console.log(newTour);
       return newTour;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  async pagination(paginationDto: PaginationCityDto): Promise<ITour[]> {
+    try {
+      const page: number = paginationDto.page || 1;
+      return await this.tourModel
+        .find({})
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * paginationDto.limit)
+        .limit(paginationDto.limit)
+        .exec();
     } catch (e) {
       console.log(e);
       throw e;

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCityDto } from '../dto/create-city.dto';
-import { PaginationCityDto } from '../dto/pagination.dto';
+import { PaginationCityDto } from '../../common/dto/pagination.dto';
 import { UpdateCityDto } from '../dto/update-city.dto';
 import { CityService } from '../service/city.service';
 

@@ -33,4 +33,12 @@ export class CountryController {
     updateCountryDto.city_id = city_id;
     return this.countryService.update(id, updateCountryDto);
   }
+
+  @Get(':page/:limit')
+  pagination(@Param('page') page: string, @Param('limit') limit: string) {
+    const paginationDto: any = {};
+    paginationDto.page = +page;
+    paginationDto.limit = +limit;
+    return this.countryService.pagination(paginationDto);
+  }
 }

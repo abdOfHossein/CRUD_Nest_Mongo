@@ -96,11 +96,10 @@ export class TourController {
     }
   }
 
-  
   @Get(':filter_value')
   findAll(@Param('filter_value') filter_value: string) {
     console.log(filter_value);
-    
+
     return this.tourService.findAll(filter_value);
   }
 
@@ -118,7 +117,12 @@ export class TourController {
     updateTourDto.city_id = city_id;
     return this.tourService.update(id, updateTourDto);
   }
-}
-function ApiImplicitParams(arg0: any[]) {
-  throw new Error('Function not implemented.');
+
+  @Get(':page/:limit')
+  pagination(@Param('page') page: string, @Param('limit') limit: string) {
+    const paginationDto: any = {};
+    paginationDto.page = +page;
+    paginationDto.limit = +limit;
+    return this.tourService.pagination(paginationDto);
+  }
 }

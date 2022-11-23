@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ICountry } from 'src/country/database/country.interface';
+import { PaginationCityDto } from '../../common/dto/pagination.dto';
 import { ICity } from '../database/city.interface';
 import { CreateCityDto } from '../dto/create-city.dto';
-import { PaginationCityDto } from '../dto/pagination.dto';
 import { UpdateCityDto } from '../dto/update-city.dto';
 
 @Injectable()
@@ -116,12 +116,12 @@ export class CityService {
     }
   }
 
-  async pagination(paginationDto: PaginationCityDto): Promise<ICity[] | any> {
+  async pagination(paginationDto: PaginationCityDto): Promise<ICity[]> {
     try {
       const page: number = paginationDto.page || 1;
       return await this.cityModel
         .find({})
-        .sort({ name_city_en: 1 })
+        .sort({ createdAt: -1 })
         .skip((page - 1) * paginationDto.limit)
         .limit(paginationDto.limit)
         .exec();

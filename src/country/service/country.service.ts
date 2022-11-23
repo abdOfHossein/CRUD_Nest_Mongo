@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { PaginationCityDto } from 'src/common/dto/pagination.dto';
 import { ICountry } from '../database/country.interface';
 import { CreateCountryDto } from '../dto/create-country.dto';
 import { UpdateCountryDto } from '../dto/update-country.dto';
@@ -67,6 +68,21 @@ export class CountryService {
         name_country_en: updateCountryDto.name_country_en,
         name_country_fa: updateCountryDto.name_country_fa,
       });
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  async pagination(paginationDto: PaginationCityDto): Promise<ICountry[]> {
+    try {
+      const page: number = paginationDto.page || 1;
+      return await this.countryModel
+        .find({})
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * paginationDto.limit)
+        .limit(paginationDto.limit)
+        .exec();
     } catch (e) {
       console.log(e);
       throw e;
