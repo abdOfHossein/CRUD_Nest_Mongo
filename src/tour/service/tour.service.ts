@@ -39,9 +39,16 @@ export class TourService {
     }
   }
 
-  async findAll(): Promise<ITour[]> {
+  async findAll(filter_value: string): Promise<ITour[]> {
     try {
-      return await this.tourModel.find({}).populate('city_id');
+      const tours = await this.tourModel.aggregate([
+        {
+          $match: {
+            name_tour: filter_value,
+          },
+        },
+      ]);
+      return tours;
     } catch (e) {
       console.log(e);
       throw e;

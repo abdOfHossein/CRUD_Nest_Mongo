@@ -96,9 +96,12 @@ export class TourController {
     }
   }
 
-  @Get()
-  findAll() {
-    return this.tourService.findAll();
+  
+  @Get(':filter_value')
+  findAll(@Param('filter_value') filter_value: string) {
+    console.log(filter_value);
+    
+    return this.tourService.findAll(filter_value);
   }
 
   @Get(':id')

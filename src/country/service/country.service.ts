@@ -26,9 +26,26 @@ export class CountryService {
     }
   }
 
-  async findAll() {
+  async findAll(filter_value: string) {
     try {
-      return await this.countryModel.find({})
+      const city = await this.countryModel.findById(filter_value);
+      return await this.countryModel.aggregate([
+        {
+          $match: {
+            $or: [
+              {
+                name_country_en: filter_value,
+              },
+              {
+                name_country_fa: filter_value,
+              },
+              {
+                city,
+              },
+            ],
+          },
+        },
+      ]);
     } catch (e) {
       console.log(e);
       throw e;

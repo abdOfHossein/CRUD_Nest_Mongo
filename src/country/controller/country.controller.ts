@@ -14,9 +14,9 @@ export class CountryController {
     return this.countryService.create(createCountryDto);
   }
 
-  @Get()
-  findAll() {
-    return this.countryService.findAll();
+  @Get(':filter_value')
+  findAll(@Param('filter_value') filter_value: string) {
+    return this.countryService.findAll(filter_value);
   }
 
   @Get(':id')

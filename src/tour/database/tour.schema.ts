@@ -1,14 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { City } from 'src/city/database/city.schema';
 import { TypeHotelEnum } from '../enums/tour.enum';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Tour {
-  //   @Prop({
-  //     ref: 'City',
-  //   })
-  //   city: string;
-
   @Prop({
     type: String,
   })
@@ -30,7 +24,6 @@ export class Tour {
     default: TypeHotelEnum.ONE_STAR,
   })
   type_hotel: TypeHotelEnum;
-
 }
 
 export const TourSchema = SchemaFactory.createForClass(Tour);
