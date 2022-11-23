@@ -24,8 +24,13 @@ export class CountryController {
     return this.countryService.findOne(id);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateCountryDto: UpdateCountryDto) {
+  @Put('/:id/:city_id')
+  update(
+    @Param('id') id: string,
+    @Param('city_id') city_id: string,
+    @Body() updateCountryDto: UpdateCountryDto,
+  ) {
+    updateCountryDto.city_id = city_id;
     return this.countryService.update(id, updateCountryDto);
   }
 }

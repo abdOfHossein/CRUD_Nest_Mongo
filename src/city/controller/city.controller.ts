@@ -28,7 +28,7 @@ export class CityController {
     return this.cityService.findOne(id);
   }
 
-  @Put(':id')
+  @Put('/:id/:country_id')
   update(
     @Param('country_id') country_id: string,
     @Param('id') id: string,

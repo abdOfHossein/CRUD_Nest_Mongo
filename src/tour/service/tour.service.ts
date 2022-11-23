@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ICity } from 'src/city/database/city.interface';
 import { ITour } from '../database/tour.interface';
 import { CreateTourDto } from '../dto/create-tour.dto';
 import { UpdateTourDto } from '../dto/update-tour.dto';
 
 @Injectable()
 export class TourService {
-  constructor(@InjectModel('Tour') private readonly tourModel: Model<ITour>) {}
+  constructor(
+    @InjectModel('Tour') private readonly tourModel: Model<ITour>,
+    @InjectModel('City') private readonly cityModel: Model<ICity>,
+  ) {}
 
   async create(createTourDto: CreateTourDto): Promise<ITour> {
     try {
@@ -21,10 +25,12 @@ export class TourService {
         name_tour: createTourDto.name_tour,
         type_hotel: createTourDto.type_hotel,
         album_img,
-        city_id: createTourDto.city_id,
       });
-      console.log(tour);
-      
+
+      await this.cityModel.findByIdAndUpdate(createTourDto.city_id, {
+        tours: [tour],
+      });
+
       await tour.save();
       return tour;
     } catch (e) {
@@ -53,15 +59,25 @@ export class TourService {
 
   async update(id: string, updateTourDto: UpdateTourDto): Promise<ITour> {
     try {
-      const result = await this.tourModel.findByIdAndUpdate(id, {
+      const oldTour = await this.tourModel.findById(id);
+      const newTour = await this.tourModel.findByIdAndUpdate(id, {
         price: updateTourDto.price,
         name_tour: updateTourDto.name_tour,
         type_hotel: updateTourDto.type_hotel,
         album_img: updateTourDto.album_img,
         city_id: updateTourDto.city_id,
       });
-      console.log(result);
-      return result;
+      await this.cityModel.findByIdAndUpdate(updateTourDto.city_id, {
+        $set: {
+          $con: {
+            tour: oldTour,
+          },
+          tour: newTour,
+        },
+      });
+
+      console.log(newTour);
+      return newTour;
     } catch (e) {
       console.log(e);
       throw e;

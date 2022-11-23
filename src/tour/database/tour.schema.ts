@@ -31,11 +31,6 @@ export class Tour {
   })
   type_hotel: TypeHotelEnum;
 
-  @Prop({
-    type: String,
-    ref:'City'
-  })
-  city_id: City;
 }
 
 export const TourSchema = SchemaFactory.createForClass(Tour);

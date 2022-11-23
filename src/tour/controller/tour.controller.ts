@@ -106,7 +106,7 @@ export class TourController {
     return this.tourService.findOne(id);
   }
 
-  @Put(':id')
+  @Put('/:id/:city_id')
   update(
     @Param('city_id') city_id: string,
     @Param('id') id: string,
