@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateCountryDto } from '../dto/create-country.dto';
 import { UpdateCountryDto } from '../dto/update-country.dto';
 import { CountryService } from '../service/country.service';
@@ -14,6 +14,7 @@ export class CountryController {
     return this.countryService.create(createCountryDto);
   }
 
+  @ApiQuery({ name: 'filter_value', required: false })
   @Get('/filter')
   findAll(@Query('filter_value') filter_value: string) {
     return this.countryService.findAll(filter_value);
@@ -24,6 +25,8 @@ export class CountryController {
     return this.countryService.update(id, updateCountryDto);
   }
 
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'limit', required: false })
   @Get('/page')
   pagination(@Query('page') page: string, @Query('limit') limit: string) {
     const paginationDto: any = {};

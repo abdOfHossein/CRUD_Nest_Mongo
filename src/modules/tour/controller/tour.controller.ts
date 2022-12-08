@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { UpdateTourDto } from '../dto/update-tour.dto';
 import { TourService } from '../service/tour.service';
 
@@ -97,10 +97,9 @@ export class TourController {
     }
   }
 
+  @ApiQuery({ name: 'filter_value', required: false })
   @Get('/filter')
   findAll(@Query('filter_value') filter_value: string) {
-    console.log(filter_value);
-
     return this.tourService.findAll(filter_value);
   }
 
@@ -110,15 +109,12 @@ export class TourController {
   }
 
   @Put()
-  update(
-    // @Param('city_id') city_id: string,
-    @Query('id') id: string,
-    @Body() updateTourDto: UpdateTourDto,
-  ) {
-    // updateTourDto.city_id = city_id;
+  update(@Query('id') id: string, @Body() updateTourDto: UpdateTourDto) {
     return this.tourService.update(id, updateTourDto);
   }
 
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'limit', required: false })
   @Get('page')
   pagination(@Query('page') page: string, @Param('limit') limit: string) {
     const paginationDto: any = {};

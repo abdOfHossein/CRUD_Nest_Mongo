@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ICity } from 'src/city/database/city.interface';
+import { ICity } from 'src/modules/city/database/city.interface';
 import { PaginationCityDto } from 'src/common/dto/pagination.dto';
 import { ITour } from '../database/tour.interface';
 import { CreateTourDto } from '../dto/create-tour.dto';

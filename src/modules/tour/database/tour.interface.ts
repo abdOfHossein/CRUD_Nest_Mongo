@@ -1,4 +1,4 @@
-import { City } from 'src/city/database/city.schema';
+import { City } from 'src/modules/city/database/city.schema';
 import { TypeHotelEnum } from '../enums/tour.enum';
 
 export interface ITour extends Document {

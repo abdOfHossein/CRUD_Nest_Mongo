@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Query, Post, Put } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateCityDto } from '../dto/create-city.dto';
-import { PaginationCityDto } from '../../common/dto/pagination.dto';
+import { PaginationCityDto } from '../../../common/dto/pagination.dto';
 import { UpdateCityDto } from '../dto/update-city.dto';
 import { CityService } from '../service/city.service';
 
@@ -20,6 +20,7 @@ export class CityController {
     return this.cityService.create(createCityDto);
   }
 
+  @ApiQuery({name:'filter_value',required:false})
   @Get('/filter')
   findAll(@Query('filter_value') filter_value: string) {
     return this.cityService.findAll(filter_value);
@@ -40,6 +41,9 @@ export class CityController {
     return this.cityService.update(id, updateCityDto);
   }
 
+
+  @ApiQuery({name:'page',required:false})
+  @ApiQuery({name:'limit',required:false})
   @Get('/page')
   pagination(@Query('page') page: string, @Query('limit') limit: string) {
     const paginationDto: any = {};

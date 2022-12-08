@@ -1,8 +1,8 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app/app.module';
 import { swaggerConfig } from './configs/swagger/swagger.config';
+import { AppModule } from './modules/app/app.module';
 const config = require('dotenv').config();
 const logger = new Logger('main');
 

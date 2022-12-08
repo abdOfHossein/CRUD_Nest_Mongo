@@ -1,6 +1,6 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Matches } from 'class-validator';
-import { Country } from 'src/country/database/country.schema';
+import { Country } from 'src/modules/country/database/country.schema';
 
 export class CreateCityDto {
   @ApiHideProperty()

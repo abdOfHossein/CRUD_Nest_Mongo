@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { City } from 'src/city/database/city.schema';
+import { City } from 'src/modules/city/database/city.schema';
 
 @Schema({ _id: false ,timestamps: true })
 export class Country {

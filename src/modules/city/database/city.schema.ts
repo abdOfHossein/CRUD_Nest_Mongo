@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Tour } from 'src/tour/database/tour.schema';
+import { Tour } from 'src/modules/tour/database/tour.schema';
 
 @Schema({ _id: false, timestamps: true })
 export class City {

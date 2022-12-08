@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ICountry } from 'src/country/database/country.interface';
-import { PaginationCityDto } from '../../common/dto/pagination.dto';
+import { ICountry } from 'src/modules/country/database/country.interface';
+import { PaginationCityDto } from '../../../common/dto/pagination.dto';
 import { ICity } from '../database/city.interface';
 import { CreateCityDto } from '../dto/create-city.dto';
 import { UpdateCityDto } from '../dto/update-city.dto';
@@ -34,11 +34,14 @@ export class CityService {
 
   async findAll(filter_value: string | null): Promise<ICity[]> {
     try {
+
+      console.log(filter_value);
       if (!filter_value) {
-        const cities = await this.cityModel.find({});
+        console.log('here');
+        const cities = await this.cityModel.find({}).select({name_city_en:1,name_city_fa:1})
         return cities;
       }
-      const tour = await this.cityModel.findById(filter_value);
+      const tour = await this.cityModel.findById(filter_value)
       const cities = await this.cityModel.aggregate([
         {
           $match: {
@@ -55,8 +58,7 @@ export class CityService {
             ],
           },
         },
-      ]);
-      console.log(cities);
+      ])
       return cities;
     } catch (e) {
       console.log(e);
